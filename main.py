@@ -57,19 +57,16 @@ def password_genrator(pass_len):
 
 def delete_password(line_no):
     '''This function deletes specific line of password data. Given <-- line number'''
-    try:
-        file = open('passwords.txt', 'r')
-        lines = file.readlines()
-        file.close()
-        newfile = open('passwords.txt', 'w')
-        line_number = 0
-        for i in lines:
-            line_number += 1
-            if line_number != int(line_no):
-                newfile.write(i)
-                newfile.close()
-    except Exception as error:
-        print(f'{f}{error}{g}')
+    file = open('passwords.txt', 'r')
+    lines = file.readlines()
+    file.close()
+    newfile = open('passwords.txt', 'w')
+    line_number = 0
+    for i in lines:
+        line_number += 1
+        if line_number != int(line_no):
+            newfile.write(i)
+    newfile.close()
 
 def save_password(account):
     f = open("passwords.txt", "a")
@@ -120,20 +117,29 @@ while True:
                 continue
 
             elif ask == 'D':
-                del_line_no = input('Enter the number of the password line you want to delete.')
+                del_line_no = int(input('Enter the number of the password line you want to delete.'))
                 ask_to_del = str(input(f'{f}WARNING:Are you sure you want to delete line no. {del_line_no}.\nYes/No?{g}')).lower()
                 if ask_to_del == 'y' or ask_to_del == 'yes':
-                    delete_password(del_line_no)
+                    n = 1
+                    m = type(del_line_no) == type(n)
+                    print(m)
+                    # delete_password(del_line_no)
+                    #
+                    # deleted_pass_file = open("passwords.txt", "r")
+                    # print("\nHere is your current password list")
+                    # for i in deleted_pass_file:
+                    #     decrypted_message = decryptor(i)
+                    #     print(f'{c}{decrypted_message}{g}')
+                    # deleted_pass_file.close()
 
-                    deleted_pass_file = open("passwords.txt", "r")
-                    print("\nHere is your current password list")
-                    for i in deleted_pass_file:
-                        decrypted_message = decryptor(i)
-                        print(f'{c}{decrypted_message}{g}')
-                    deleted_pass_file.close()
+                elif ask_to_del == 'n' or ask_to_del == 'no':
+                    break
 
-                elif ask_to_del == 'N' or ask_to_del == 'no':
-                    pass
+                elif type(del_line_no) != 'int':
+                    print(f'{f}Enter integer only{g}')
+
+                else:
+                    break
 
             elif ask == 'Q':
                 quit()

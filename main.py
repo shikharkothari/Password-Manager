@@ -57,15 +57,18 @@ def password_genrator(pass_len):
 
 def delete_password(line_no):
     '''This function deletes specific line of password data. Given <-- line number'''
-    file = open('passwords.txt', 'r')
-    lines = file.readlines()
-    file.close()
-    newfile = open('passwords.txt', 'w')
-    line_number = 0
-    for i in lines:
-        line_number += 1
-        if line_number != int(line_no):
-            newfile.write(i)
+    try:
+        file = open('passwords.txt', 'r')
+        lines = file.readlines()
+        file.close()
+        newfile = open('passwords.txt', 'w')
+        line_number = 0
+        for i in lines:
+            line_number += 1
+            if line_number != int(line_no):
+                newfile.write(i)
+    except Exception as error:
+        print(f'{f}{error}{g}')
 
 def save_password(account):
     f = open("passwords.txt", "a")

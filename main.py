@@ -67,6 +67,7 @@ def delete_password(line_no):
             line_number += 1
             if line_number != int(line_no):
                 newfile.write(i)
+                newfile.close()
     except Exception as error:
         print(f'{f}{error}{g}')
 

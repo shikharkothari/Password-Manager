@@ -74,8 +74,17 @@ def save_password(account):
     f.write("\n")
     f.close()
 
+def show_password():
+    pass_file = open("passwords.txt", "r")
+    print("\nYour password's list looks like this")
+    for i in pass_file:
+        decrypted_message = decryptor(i)
+        print(f'{c}{decrypted_message}{g}')
+    pass_file.close()
+
 os.system('cls')# This let work the ascii colours work properly
 print(f'{a}{h}Press:\nG - Generate Password\nA - Access Password\nQ - Quit\n--help - Help{g}')
+
 while True:
     home = str(input('\nG/A/Q :')).upper()
     if home == 'G':
@@ -104,54 +113,37 @@ while True:
     elif home == 'A':#Accessed
         authen = str(input('Enter the password:'))
         if authen == 'shikhar24042006':
-
-            pass_file = open("passwords.txt", "r")
-            print("\nHere is your whole password list")
-            for i in pass_file:
-                decrypted_message = decryptor(i)
-                print(f'{c}{decrypted_message}{g}')
-            pass_file.close()
+            show_password()
             ask = str(input("\nPress 'H' - home, 'Q' - Quit, 'D' - Delete password :")).upper()
 
-            if ask == 'H':
-                continue
+            if ask == 'H': continue
 
             elif ask == 'D':
-                del_line_no = int(input('Enter the number of the password line you want to delete.'))
-                ask_to_del = str(input(f'{f}WARNING:Are you sure you want to delete line no. {del_line_no}.\nYes/No?{g}')).lower()
-                if ask_to_del == 'y' or ask_to_del == 'yes':
-                    n = 1
-                    m = type(del_line_no) == type(n)
-                    print(m)
-                    # delete_password(del_line_no)
-                    #
-                    # deleted_pass_file = open("passwords.txt", "r")
-                    # print("\nHere is your current password list")
-                    # for i in deleted_pass_file:
-                    #     decrypted_message = decryptor(i)
-                    #     print(f'{c}{decrypted_message}{g}')
-                    # deleted_pass_file.close()
+                del_line_no = input('Enter the number of the password line you want to delete.')
 
-                elif ask_to_del == 'n' or ask_to_del == 'no':
-                    break
+                try: del_line_no = int(del_line_no)
 
-                elif type(del_line_no) != 'int':
-                    print(f'{f}Enter integer only{g}')
+                except Exception as error: print(f'{f}{error}{g}')
 
                 else:
-                    break
+                    ask_to_del = str(input(f'{f}WARNING:Are you sure you want to delete line no. '
+                                           f'{del_line_no}.\nYes/No?{g}')).lower()
 
-            elif ask == 'Q':
-                quit()
+                    if ask_to_del == 'y' or ask_to_del == 'yes':
+                        delete_password(del_line_no)
+                        show_password()
 
-            else:
-                print(f'{f}Enter valid key.{g}')
+                    elif ask_to_del == 'n' or ask_to_del == 'no': continue
 
-    elif home == 'Q':
-        quit()
+                    else: continue
 
-    elif home == '--HELP':
-        print(f'{a}\nPress:\nG - Genrate Password\nA - Access Password\nQ - Quit\n--help - Help{g}')
 
-    else:
-        print(f'{f}Enter valid key{g}')
+            elif ask == 'Q': quit()
+
+            else: print(f'{f}Enter valid key.{g}')
+
+    elif home == 'Q': quit()
+
+    elif home == '--HELP': print(f'{a}\nPress:\nG - Genrate Password\nA - Access Password\nQ - Quit\n--help - Help{g}')
+
+    else: print(f'{f}Enter valid key{g}')

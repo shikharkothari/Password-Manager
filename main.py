@@ -82,33 +82,43 @@ def show_password():
         print(f'{c}{decrypted_message}{g}')
     pass_file.close()
 
+def del_all_pass():
+    file = open('passwords.txt', 'w')
+    file.write('')
+    file.close()
+    print(f'{f}Deleted all the passwords!{g}')
+
 os.system('cls')# This let work the ascii colours work properly
 print(f'{a}{h}Press:\nG - Generate Password\nA - Access Password\nQ - Quit\n--help - Help{g}')
 
 while True:
     home = str(input('\nG/A/Q :')).upper()
     if home == 'G':
-        password_length = int(input("No. of characters you want in password.(Integer):"))
-        while True:
-            password = password_genrator(password_length)
-            os.system('cls')
-            verifying_password = str(input(f'{e}{password}{g},'
-                                           f'{a}Y - Save password, Enter - Genrate again, H - To go to home.{g}')).upper()
+        try:
+            password_length = int(input("No. of characters you want in password.(Integer):"))
+        except Exception as err:
+            print(f"{f}{err}{g}")
+        else:
+            while True:
+                password = password_genrator(password_length)
+                os.system('cls')
+                verifying_password = str(input(f'{e}{password}{g},'
+                                               f'{a}Y - Save password, Enter - Genrate again, H - To go to home.{g}')).upper()
 
-            if verifying_password == 'Y':
-                account_name = input("Enter the account name:")
-                save_password(account_name)
-                break
+                if verifying_password == 'Y':
+                    account_name = input("Enter the account name:")
+                    save_password(account_name)
+                    break
 
-            elif verifying_password == '':
-                continue
+                elif verifying_password == '':
+                    continue
 
-            elif verifying_password == 'H':
-                break
+                elif verifying_password == 'H':
+                    break
 
-            else:
-                print("Enter Valid Key")
-                break
+                else:
+                    print(f"{f}Entered invalid key. Didn't know what to do with that.{g}")
+                    break
 
     elif home == 'A':#Accessed
         authen = str(input('Enter the password:'))
@@ -119,24 +129,40 @@ while True:
             if ask == 'H': continue
 
             elif ask == 'D':
-                del_line_no = input('Enter the number of the password line you want to delete.')
+                del_line_no = input('Enter the number of the password line you want to delete. '
+                                    'Or 0 to delete all passwords.')
 
                 try: del_line_no = int(del_line_no)
 
                 except Exception as error: print(f'{f}{error}{g}')
 
                 else:
-                    ask_to_del = str(input(f'{f}WARNING:Are you sure you want to delete line no. '
-                                           f'{del_line_no}.\nYes/No?{g}')).lower()
 
-                    if ask_to_del == 'y' or ask_to_del == 'yes':
-                        delete_password(del_line_no)
-                        show_password()
+                    if del_line_no != 0:
+                        ask_to_del = str(input(f'{f}WARNING:Are you sure you want to delete line no. '
+                                               f'{del_line_no}.\nYes/No?{g}')).lower()
 
-                    elif ask_to_del == 'n' or ask_to_del == 'no': continue
+                        if ask_to_del == 'y' or ask_to_del == 'yes':
+                            delete_password(del_line_no)
+                            show_password()
 
-                    else: continue
+                        elif ask_to_del == 'n' or ask_to_del == 'no': continue
 
+                        else: continue
+
+                    elif del_line_no == 0:
+                        ask_to_del = str(input(f'{f}WARNING:Are you sure you want to delete all passwords. '
+                                               f'Yes/No?{g}')).lower()
+
+                        if ask_to_del == 'y' or ask_to_del == 'yes':
+                            del_all_pass()
+
+                        elif ask_to_del == 'n' or ask_to_del == 'no':
+                            continue
+
+
+                    else:
+                        print(f'{f}Something went wrong!{g}')
 
             elif ask == 'Q': quit()
 
